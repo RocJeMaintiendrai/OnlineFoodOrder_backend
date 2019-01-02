@@ -47,6 +47,9 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     private OrderMasterRepository orderMasterRepository;
 
+    @Autowired
+    private WebSocket webSocket;
+
     @Override
     @Transactional
     public OrderDTO create(OrderDTO orderDTO) {
@@ -89,6 +92,8 @@ public class OrderServiceImpl implements OrderService{
              new CartDTO(e.getProductId(), e.getProductQuantity())
         ).collect(Collectors.toList());
         productService.decreaseStock(cartDTOList);
+
+        webSocket.sendMessage("有新的订单");
 
         return orderDTO;
     }
@@ -206,6 +211,8 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public Page<OrderDTO> findList(Pageable pageable) {
-        return null;
+        Page<OrderMaster> orderMasterPage = orderMasterRepository.findAll(pageable);
+        List<OrderDTO> orderDTOList = OrderMaster2OrderDTOConverter.convert(orderMasterPage.getContent());
+        return new PageImpl<OrderDTO>(orderDTOList, pageable, orderMasterPage.getTotalElements());
     }
 }

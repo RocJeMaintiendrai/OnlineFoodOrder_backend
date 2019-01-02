@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author PGOne
- * @date 2018/12/29
+ * @date 2019/01/01
  */
 @Data
 @ConfigurationProperties(prefix = "projectUrl")
@@ -52,3 +52,4 @@ public class ProjectUrlConfig {
         this.sell = sell;
     }
 }
+

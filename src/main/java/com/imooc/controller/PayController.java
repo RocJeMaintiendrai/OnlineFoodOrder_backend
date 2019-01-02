@@ -1,4 +1,4 @@
-package com.imooc.contoller;
+package com.imooc.controller;
 
 import com.imooc.dto.OrderDTO;
 import com.imooc.enums.ResultEnum;
